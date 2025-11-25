@@ -1,0 +1,41 @@
+# Node / npm
+node_modules/
+npm-debug.log*
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build outputs
+frontend/build/
+dist/
+build/
+
+# Env files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs
+*.log
+pids
+*.pid
+*.seed
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Docker
+docker-compose.override.yml
+**/Dockerfile*~   # editor temp
+**/*-node_modules/
+
+# Misc
+coverage/
+*.tgz
+*.zip
+.cache/
