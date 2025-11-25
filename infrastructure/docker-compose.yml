@@ -1,0 +1,44 @@
+#version: "3.9"
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile_backend
+    container_name: backend
+    ports:
+      - "4000:4000"
+    restart: always
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile_frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: always
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    restart: always

@@ -1,0 +1,51 @@
+{
+  "title": "IoT Sensors Dashboard",
+  "timezone": "browser",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Temperature (°C)",
+      "targets": [{ "expr": "sensor_temperature_c" }],
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Humidity (%)",
+      "targets": [{ "expr": "sensor_humidity_percent" }],
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "CO2 (ppm)",
+      "targets": [{ "expr": "sensor_co2_ppm" }],
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Light (lux)",
+      "targets": [{ "expr": "sensor_light_lux" }],
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Noise (dB)",
+      "targets": [{ "expr": "sensor_noise_db" }],
+      "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Pressure (hPa)",
+      "targets": [{ "expr": "sensor_pressure_hpa" }],
+      "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "PM2.5 (µg/m³)",
+      "targets": [{ "expr": "sensor_pm25_ug_m3" }],
+      "gridPos": { "x": 0, "y": 24, "w": 24, "h": 8 }
+    }
+  ],
+  "schemaVersion": 30,
+  "version": 1,
+  "refresh": "5s"
+}
