@@ -1,28 +1,32 @@
-const sensors = [];
+import express from "express";
+import pool from "./db.js";
 
-export function generateSensorData() {
-    const data = {
-        timestamp: new Date(),
-        temperature: +(18 + Math.random() * 12).toFixed(2),
-        humidity: +(35 + Math.random() * 35).toFixed(2),
-        co2: +(300 + Math.random() * 900).toFixed(0),
-        light: +(100 + Math.random() * 900).toFixed(0),
-        noise: +(30 + Math.random() * 50).toFixed(1),
-        pressure: +(990 + Math.random() * 20).toFixed(1),
-        pm25: +(5 + Math.random() * 45).toFixed(1)
-    };
-    sensors.push(data);
-    if (sensors.length > 100) sensors.shift();
-    return data;
-}
+const router = express.Router();
 
-// Générer toutes les 5 secondes
-setInterval(generateSensorData, 5000);
+// Get latest measurement
+router.get("/latest", async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM measurements ORDER BY timestamp DESC LIMIT 1`
+    );
+    res.json(result.rows[0] || {});
+  } catch (err) {
+    console.error("Error latest:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
-export function getLatestSensor() {
-    return sensors[sensors.length - 1] || generateSensorData();
-}
+// Get history (last 100 rows)
+router.get("/history", async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM measurements ORDER BY timestamp DESC LIMIT 100`
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error history:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
 
-export function getHistory() {
-    return sensors;
-}
+export default router;

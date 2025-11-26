@@ -1,26 +1,52 @@
-import client from 'prom-client';
-import { getLatestSensor } from './sensors.js';
+import client from "prom-client";
 
-const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics({ timeout: 5000 });
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
 
-export const gauges = {
-    temperature: new client.Gauge({ name: 'sensor_temperature_c', help: 'Temperature in Celsius' }),
-    humidity: new client.Gauge({ name: 'sensor_humidity_percent', help: 'Humidity %' }),
-    co2: new client.Gauge({ name: 'sensor_co2_ppm', help: 'CO2 ppm' }),
-    light: new client.Gauge({ name: 'sensor_light_lux', help: 'Light intensity lux' }),
-    noise: new client.Gauge({ name: 'sensor_noise_db', help: 'Noise dB' }),
-    pressure: new client.Gauge({ name: 'sensor_pressure_hpa', help: 'Pressure hPa' }),
-    pm25: new client.Gauge({ name: 'sensor_pm25_ug_m3', help: 'PM2.5 µg/m³' }),
+const temperatureGauge = new client.Gauge({
+  name: "iot_temperature",
+  help: "Temperature value",
+});
+const humidityGauge = new client.Gauge({
+  name: "iot_humidity",
+  help: "Humidity value",
+});
+const co2Gauge = new client.Gauge({
+  name: "iot_co2",
+  help: "CO2 level",
+});
+const lightGauge = new client.Gauge({
+  name: "iot_light",
+  help: "Light level",
+});
+const noiseGauge = new client.Gauge({
+  name: "iot_noise",
+  help: "Noise level",
+});
+const pressureGauge = new client.Gauge({
+  name: "iot_pressure",
+  help: "Pressure (Pa)",
+});
+const pm25Gauge = new client.Gauge({
+  name: "iot_pm25",
+  help: "PM2.5 (air quality)",
+});
+
+register.registerMetric(temperatureGauge);
+register.registerMetric(humidityGauge);
+register.registerMetric(co2Gauge);
+register.registerMetric(lightGauge);
+register.registerMetric(noiseGauge);
+register.registerMetric(pressureGauge);
+register.registerMetric(pm25Gauge);
+
+export const metricsRegister = register;
+export const metrics = {
+  temperatureGauge,
+  humidityGauge,
+  co2Gauge,
+  lightGauge,
+  noiseGauge,
+  pressureGauge,
+  pm25Gauge,
 };
-
-export function updateMetrics() {
-    const latest = getLatestSensor();
-    for (const key in gauges) {
-        gauges[key].set(latest[key]);
-    }
-}
-
-setInterval(updateMetrics, 5000);
-
-export { client };
