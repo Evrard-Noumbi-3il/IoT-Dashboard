@@ -1,4 +1,4 @@
-name: CI
+name: CI - Tests & Docker Build
 
 on:
   push:
@@ -7,15 +7,17 @@ on:
     branches: [ main ]
 
 jobs:
-
-  backend-tests:
-    name: Backend – Tests & Lint
+  build-and-push:
+    name: Full CI - Test & Docker
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # ----------------------------
+      # Backend
+      # ----------------------------
       - name: Use Node 18
         uses: actions/setup-node@v3
         with:
@@ -29,23 +31,9 @@ jobs:
         working-directory: backend
         run: npm test --if-present
 
-      - name: Build backend Docker image
-        run: docker build -t backend-test -f backend/Dockerfile_backend backend
-
-
-  frontend-tests:
-    name: Frontend – Tests & Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Use Node 18
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
+      # ----------------------------
+      # Frontend
+      # ----------------------------
       - name: Install frontend dependencies
         working-directory: frontend
         run: npm install
@@ -54,9 +42,26 @@ jobs:
         working-directory: frontend
         run: npm test --if-present --watchAll=false
 
-      - name: Test frontend build
+      - name: Build frontend
         working-directory: frontend
         run: npm run build
 
-      - name: Build frontend Docker image
-        run: docker build -t frontend-test -f frontend/Dockerfile_frontend frontend
+      # ----------------------------
+      # Docker Login & Build
+      # ----------------------------
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build & Push backend Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/iot-backend:latest -f backend/Dockerfile_backend backend
+          docker push ghcr.io/${{ github.repository_owner }}/iot-backend:latest
+
+      - name: Build & Push frontend Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/iot-frontend:latest -f frontend/Dockerfile_frontend frontend
+          docker push ghcr.io/${{ github.repository_owner }}/iot-frontend:latest
