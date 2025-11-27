@@ -67,11 +67,11 @@ jobs:
 
       - name: Build & Push backend Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/iot-backend:latest -f backend/Dockerfile_backend backend
-          docker push ghcr.io/${{ github.repository_owner }}/iot-backend:latest
+          docker build -t ghcr.io/evrard-noumbi-3il/iot-backend:latest -f backend/Dockerfile_backend backend
+          docker push ghcr.io/evrard-noumbi-3il/iot-backend:latest
 
       - name: Build & Push frontend Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/iot-frontend:latest -f frontend/Dockerfile_frontend frontend
-          docker push ghcr.io/${{ github.repository_owner }}/iot-frontend:latest
+          docker build -t ghcr.io/evrard-noumbi-3il/iot-frontend:latest -f frontend/Dockerfile_frontend frontend
+          docker push ghcr.io/evrard-noumbi-3il/iot-frontend:latest
 # 
