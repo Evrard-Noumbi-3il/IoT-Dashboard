@@ -34,9 +34,17 @@ jobs:
       # ----------------------------
       # Frontend
       # ----------------------------
+
+      - name: Clean npm cache
+        run: npm cache clean --force
+
       - name: Install frontend dependencies
         working-directory: frontend
-        run: npm install
+        run: npm ci
+
+      - name: Fix permissions
+        working-directory: frontend
+        run: chmod +x node_modules/.bin/react-scripts
 
       - name: Run frontend tests
         working-directory: frontend
