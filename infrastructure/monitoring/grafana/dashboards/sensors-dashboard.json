@@ -5,43 +5,43 @@
     {
       "type": "timeseries",
       "title": "Temperature (°C)",
-      "targets": [{ "expr": "sensor_temperature_c" }],
+      "targets": [{ "expr": "iot_temperature" }],
       "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
     },
     {
       "type": "timeseries",
       "title": "Humidity (%)",
-      "targets": [{ "expr": "sensor_humidity_percent" }],
+      "targets": [{ "expr": "iot_humidity" }],
       "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
     },
     {
       "type": "timeseries",
       "title": "CO2 (ppm)",
-      "targets": [{ "expr": "sensor_co2_ppm" }],
+      "targets": [{ "expr": "iot_co2" }],
       "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
     },
     {
       "type": "timeseries",
       "title": "Light (lux)",
-      "targets": [{ "expr": "sensor_light_lux" }],
+      "targets": [{ "expr": "iot_light" }],
       "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 }
     },
     {
       "type": "timeseries",
       "title": "Noise (dB)",
-      "targets": [{ "expr": "sensor_noise_db" }],
+      "targets": [{ "expr": "iot_noise" }],
       "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 }
     },
     {
       "type": "timeseries",
-      "title": "Pressure (hPa)",
-      "targets": [{ "expr": "sensor_pressure_hpa" }],
+      "title": "Pressure (Pa)",
+      "targets": [{ "expr": "iot_pressure" }],
       "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 }
     },
     {
       "type": "timeseries",
       "title": "PM2.5 (µg/m³)",
-      "targets": [{ "expr": "sensor_pm25_ug_m3" }],
+      "targets": [{ "expr": "iot_pm25" }],
       "gridPos": { "x": 0, "y": 24, "w": 24, "h": 8 }
     }
   ],
